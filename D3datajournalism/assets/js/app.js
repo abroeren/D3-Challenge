@@ -72,9 +72,30 @@ d3.csv("./assets/data/data.csv").then(function(data) {
         .append("circle")
         .attr("cx", d => xLinearScale(d.poverty))
         .attr("cy", d => yLinearScale(d.healthcare))
-        .attr("r", "15")
-        .attr("fill", "lightblue")
-        .attr("opacity", ".5");
+        .attr("r", "10")
+        .attr("fill", "blue")
+        .attr("opacity", "0.5");
+
+
+    // Add state abbreviations to circles
+    // https://stackoverflow.com/questions/55988709/how-can-i-add-labels-inside-the-points-in-a-scatterplot
+
+    var circleLabels = chartGroup.selectAll(null).data(data).enter().append("text");
+
+    circleLabels
+        .attr("x", function(d) {
+            return xLinearScale(d.poverty);
+        })
+        .attr("y", function(d) {
+            return yLinearScale(d.healthcare) + 3;
+        })
+        .text(function(d) {
+            return d.abbr;
+        })
+        .attr("font-family", "sans-serif")
+        .attr("font-size", "8px")
+        .attr("text-anchor", "middle")
+        .attr("fill", "white");
 
     // Step 6: Initialize tool tip
     // ==============================
