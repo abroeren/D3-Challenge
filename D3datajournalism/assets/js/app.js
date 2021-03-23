@@ -73,8 +73,8 @@ d3.csv("./assets/data/data.csv").then(function(data) {
         .attr("cx", d => xLinearScale(d.poverty))
         .attr("cy", d => yLinearScale(d.healthcare))
         .attr("r", "10")
-        .attr("fill", "blue")
-        .attr("opacity", "0.5");
+        .attr("class", "stateCircle")
+        .attr("opacity", "0.8");
 
 
     // Add state abbreviations to circles
@@ -95,12 +95,12 @@ d3.csv("./assets/data/data.csv").then(function(data) {
         .attr("font-family", "sans-serif")
         .attr("font-size", "8px")
         .attr("text-anchor", "middle")
-        .attr("fill", "white");
+        .attr("class", "stateText");
 
     // Step 6: Initialize tool tip
     // ==============================
     var toolTip = d3.tip()
-        .attr("class", "tooltip")
+        .attr("class", "d3-tip")
         .offset([80, -60])
         .html(function(d) {
             return (`${d.state}<br>Living in poverty: ${d.age}%<br>Lacks healthcare: ${d.smokes}%`);
@@ -112,6 +112,14 @@ d3.csv("./assets/data/data.csv").then(function(data) {
 
     // Step 8: Create event listeners to display and hide the tooltip
     // ==============================
+    circleLabels.on("click", function(data) {
+            toolTip.show(data, this);
+        })
+        // onmouseout event
+        .on("mouseout", function(data, index) {
+            toolTip.hide(data);
+        });
+
     circlesGroup.on("click", function(data) {
             toolTip.show(data, this);
         })
